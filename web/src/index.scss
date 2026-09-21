@@ -423,9 +423,8 @@ body.inv-dragging {
 }
 
 .useful-controls-dialog-overlay {
-  background-color: rgba(0, 0, 0, 0.68);
-
-  backdrop-filter: blur(2px);
+  background-color: rgba(0, 0, 0, 0.22);
+  backdrop-filter: blur(1px);
 }
 
 .useful-controls-dialog-title {
