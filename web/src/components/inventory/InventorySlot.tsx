@@ -186,13 +186,7 @@ const InventorySlot: React.ForwardRefRenderFunction<HTMLDivElement, SlotProps> =
                     <img
                       src={item.currency ? getItemUrl(item.currency) : 'none'}
                       alt="item-image"
-                      style={{
-                        imageRendering: '-webkit-optimize-contrast',
-                        height: 'auto',
-                        width: '2vh',
-                        backfaceVisibility: 'hidden',
-                        transform: 'translateZ(0)',
-                      }}
+                      className="item-slot-currency-image"
                     />
                     <p>{item.price.toLocaleString('en-us')}</p>
                   </div>
@@ -201,7 +195,12 @@ const InventorySlot: React.ForwardRefRenderFunction<HTMLDivElement, SlotProps> =
                     {item.price > 0 && (
                       <div
                         className="item-slot-price-wrapper"
-                        style={{ color: item.currency === 'money' || !item.currency ? '#2ECC71' : '#E74C3C' }}
+                        style={{
+                          color:
+                            item.currency === 'money' || !item.currency
+                              ? 'var(--civora-accent-bright)'
+                              : 'var(--civora-warning)',
+                        }}
                       >
                         <p>
                           {Locale.$ || '$'}

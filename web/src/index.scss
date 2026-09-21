@@ -1,11 +1,45 @@
-$mainColor: #22232c;
-$textColor: #c1c2c5;
-$mainFont: Roboto;
+:root {
+  --civora-bg: #0c1116;
 
-$secondaryColor: rgba(12, 12, 12, 0.4);
-$secondaryColorHighlight: #33343f;
+  --civora-surface: rgba(18, 24, 30, 0.97);
+  --civora-surface-alt: rgba(12, 17, 22, 0.97);
+
+  --civora-border: rgba(255, 255, 255, 0.09);
+  --civora-border-soft: rgba(255, 255, 255, 0.055);
+
+  --civora-text: #f4f6f8;
+  --civora-text-muted: rgba(220, 226, 232, 0.62);
+
+  --civora-accent: #24d9df;
+  --civora-accent-bright: #42e8ed;
+
+  --civora-accent-soft: rgba(20, 199, 206, 0.12);
+  --civora-accent-hover: rgba(20, 199, 206, 0.16);
+  --civora-accent-border: rgba(20, 199, 206, 0.32);
+
+  --civora-success: #5fd49a;
+  --civora-warning: #e2b85d;
+  --civora-danger: #e5656b;
+
+  --civora-shadow-md: 0 14px 32px rgba(0, 0, 0, 0.32);
+}
+
+$mainColor: var(--civora-surface);
+$textColor: var(--civora-text);
+
+$mainFont:
+  Inter,
+  ui-sans-serif,
+  system-ui,
+  -apple-system,
+  BlinkMacSystemFont,
+  'Segoe UI',
+  sans-serif;
+
+$secondaryColor: var(--civora-surface-alt);
+$secondaryColorHighlight: var(--civora-accent-soft);
 $secondaryColorLight: rgba(0, 0, 0, 0.5);
-$secondaryColorDark: rgba(12, 12, 12, 0.8);
+$secondaryColorDark: var(--civora-surface);
 
 $gridCols: 5;
 $gridRows: 5;
@@ -58,40 +92,126 @@ input[type='number']::-webkit-outer-spin-button {
 }
 
 .context-menu-list {
-  min-width: 200px;
-  background-color: $mainColor;
-  color: $textColor;
-  padding: 4px;
-  border-color: rgba(0, 0, 0, 0.2);
-  border-style: inset;
-  border-width: 1px;
-  border-radius: 4px;
-  outline: none;
+  min-width: 210px;
+
   display: flex;
   flex-direction: column;
+
+  gap: 4px;
+
+  padding: 6px;
+
+  color: var(--civora-text);
+
+  background:
+    linear-gradient(
+      180deg,
+      rgba(18, 24, 30, 0.99) 0%,
+      rgba(12, 17, 22, 0.99) 100%
+    );
+
+  border: 1px solid var(--civora-border);
+
+  border-radius: 10px;
+
+  box-shadow:
+    0 14px 32px rgba(0, 0, 0, 0.34),
+    inset 0 1px 0 rgba(255, 255, 255, 0.02);
+
+  outline: none;
 }
 
 .context-menu-item {
-  padding: 8px;
-  border-radius: 4px;
-  background-color: transparent;
-  outline: none;
-  border: none;
-  color: $textColor;
+  position: relative;
+
   display: flex;
   justify-content: space-between;
   align-items: center;
-  &:active {
-    transform: none;
+
+  min-height: 34px;
+
+  padding: 7px 10px;
+
+  color: rgba(235, 239, 243, 0.82);
+
+  background: transparent;
+
+  border: 1px solid transparent;
+  border-radius: 7px;
+
+  outline: none;
+
+  font-family: $mainFont;
+  font-size: 12px;
+  font-weight: 600;
+
+  transition:
+    color 140ms ease,
+    background 140ms ease,
+    border-color 140ms ease,
+    transform 140ms ease;
+
+  &::before {
+    content: '';
+
+    position: absolute;
+
+    left: -1px;
+    top: 7px;
+    bottom: 7px;
+
+    width: 2px;
+
+    border-radius: 2px;
+
+    background: transparent;
+
+    transition:
+      background 140ms ease,
+      box-shadow 140ms ease;
   }
-  &:hover {
-    background-color: $secondaryColorHighlight;
+
+  &:hover,
+  &:focus {
+    color: var(--civora-text);
+
+    background:
+      linear-gradient(
+        180deg,
+        rgba(20, 199, 206, 0.10) 0%,
+        rgba(20, 199, 206, 0.055) 100%
+      );
+
+    border-color: var(--civora-accent-border);
+
+    transform: translateX(2px);
+
     cursor: pointer;
+
+    &::before {
+      background: var(--civora-accent);
+
+      box-shadow:
+        0 0 7px rgba(36, 217, 223, 0.22);
+    }
+  }
+
+  &:disabled {
+    opacity: 0.45;
+    cursor: default;
+  }
+
+  &:active {
+    transform: translateX(2px);
   }
 }
 
 .tooltip-description {
-  padding-top: 5px;
+  padding-top: 8px;
+
+  color: var(--civora-text-muted);
+
+  line-height: 1.45;
 }
 
 .tooltip-markdown > p {
@@ -132,9 +252,10 @@ body.inv-dragging {
   flex-direction: row;
   justify-content: center;
   align-items: center;
+
   height: 100%;
 
-  gap: 20px;
+  gap: 22px;
 }
 
 .inventory-control {
@@ -143,126 +264,379 @@ body.inv-dragging {
   .inventory-control-wrapper {
     display: flex;
     flex-direction: column;
-    gap: 20px;
+
     justify-content: center;
-    align-items: center;
+    align-items: stretch;
+
+    gap: 10px;
+
+    width: 150px;
   }
 
   .inventory-control-input {
-    transition: 200ms;
-    padding: 16px 8px;
-    border-radius: 2.5%;
-    font-family: $mainFont;
-    font-size: 16px;
-    text-align: center;
+    height: 42px;
+
+    box-sizing: border-box;
+
+    padding: 0 12px;
+
+    color:
+      var(--civora-text);
+
+    background:
+      linear-gradient(
+        180deg,
+        rgba(18, 24, 30, 0.97) 0%,
+        rgba(12, 17, 22, 0.97) 100%
+      );
+
+    border:
+      1px solid var(--civora-border);
+
+    border-radius: 8px;
+
     outline: none;
-    border: none;
-    color: #fff;
-    background-color: $secondaryColor;
-    &:focus-within {
-      background-color: $secondaryColorDark;
+
+    font-family:
+      $mainFont;
+
+    font-size: 14px;
+    font-weight: 600;
+
+    text-align: center;
+
+    transition:
+      border-color 140ms ease,
+      box-shadow 140ms ease,
+      background 140ms ease;
+
+    &:focus {
+      border-color:
+        var(--civora-accent-border);
+
+      box-shadow:
+        0 0 0 2px rgba(20, 199, 206, 0.08);
     }
   }
 
   .inventory-control-button {
-    font-size: 14px;
-    color: #fff;
-    background-color: $secondaryColor;
-    transition: 200ms;
-    padding: 12px 8px;
-    border-radius: 2.5%;
-    border: none;
+    height: 42px;
+
+    padding: 0 12px;
+
+    color:
+      var(--civora-text);
+
+    background:
+      linear-gradient(
+        180deg,
+        rgba(18, 24, 30, 0.97) 0%,
+        rgba(12, 17, 22, 0.97) 100%
+      );
+
+    border:
+      1px solid var(--civora-border);
+
+    border-radius: 8px;
+
+    font-family:
+      $mainFont;
+
+    font-size: 12px;
+    font-weight: 700;
+
     text-transform: uppercase;
-    font-family: $mainFont;
-    width: 100%;
-    font-weight: 500;
+
+    transition:
+      transform 140ms ease,
+      border-color 140ms ease,
+      background 140ms ease,
+      color 140ms ease;
+
     &:hover {
-      background-color: $secondaryColorDark;
+      color:
+        var(--civora-accent-bright);
+
+      background:
+        linear-gradient(
+          180deg,
+          rgba(20, 199, 206, 0.10) 0%,
+          rgba(12, 17, 22, 0.97) 100%
+        );
+
+      border-color:
+        var(--civora-accent-border);
+
+      transform:
+        translateY(-1px);
+
+      cursor:
+        pointer;
+    }
+    outline: none;
+
+    &:focus,
+    &:focus-visible {
+      outline: none;
+
+      border-color: var(--civora-accent-border);
+
+      box-shadow:
+        0 0 0 2px rgba(20, 199, 206, 0.08);
     }
   }
 }
 
 .useful-controls-dialog {
-  background-color: $mainColor;
   position: absolute;
+
   top: 50%;
   left: 50%;
+
   transform: translate(-50%, -50%);
-  color: $textColor;
-  width: 450px;
+
+  width: 420px;
+
   display: flex;
   flex-direction: column;
-  padding: 16px;
-  border-radius: 4px;
-  gap: 16px;
+
+  gap: 14px;
+
+  padding: 18px;
+
+  color: var(--civora-text);
+
+  background:
+    linear-gradient(
+      180deg,
+      rgba(18, 24, 30, 0.99) 0%,
+      rgba(12, 17, 22, 0.99) 100%
+    );
+
+  border: 1px solid var(--civora-border);
+
+  border-radius: 12px;
+
+  box-shadow:
+    0 24px 70px rgba(0, 0, 0, 0.46),
+    inset 0 1px 0 rgba(255, 255, 255, 0.025);
 }
 
 .useful-controls-dialog-overlay {
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: rgba(0, 0, 0, 0.68);
+
+  backdrop-filter: blur(2px);
 }
 
 .useful-controls-dialog-title {
   display: flex;
+
   width: 100%;
+
   justify-content: space-between;
   align-items: center;
-  font-size: 18px;
+
+  padding-bottom: 10px;
+
+  border-bottom:
+    1px solid var(--civora-border-soft);
+
+  color: var(--civora-text);
+
+  font-size: 15px;
+  font-weight: 700;
 }
 
 .useful-controls-dialog-close {
-  width: 25px;
-  height: 25px;
-  padding: 6px;
+  width: 30px;
+  height: 30px;
+
   display: flex;
+
   justify-content: center;
   align-items: center;
-  border-radius: 4px;
-  fill: $textColor;
+
+  padding: 6px;
+
+  fill: var(--civora-text-muted);
+
+  border-radius: 7px;
+
+  transition:
+    background 140ms ease,
+    fill 140ms ease,
+    transform 140ms ease;
+
   &:hover {
-    background-color: $secondaryColorHighlight;
-    cursor: pointer;
+    background:
+      rgba(20, 199, 206, 0.10);
+
+    fill:
+      var(--civora-accent-bright);
+
+    transform:
+      scale(1.04);
+
+    cursor:
+      pointer;
   }
 }
 
 .useful-controls-content-wrapper {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+
+  gap: 8px;
+}
+
+.useful-control-row {
+  display: flex;
+  align-items: center;
+
+  gap: 6px;
+
+  min-height: 34px;
+
+  padding: 6px 8px;
+
+  background: rgba(255, 255, 255, 0.02);
+
+  border: 1px solid var(--civora-border-soft);
+  border-radius: 8px;
+}
+
+.useful-control-key {
+  display: inline-flex;
+
+  align-items: center;
+  justify-content: center;
+
+  min-width: 30px;
+  height: 24px;
+
+  padding: 0 7px;
+
+  color: var(--civora-accent-bright);
+
+  background:
+    linear-gradient(
+      180deg,
+      rgba(20, 199, 206, 0.14) 0%,
+      rgba(20, 199, 206, 0.07) 100%
+    );
+
+  border: 1px solid rgba(20, 199, 206, 0.28);
+
+  border-radius: 6px;
+
+  font-size: 10px;
+  font-weight: 700;
+
+  letter-spacing: 0.03em;
+}
+
+.useful-control-plus {
+  color: rgba(220, 226, 232, 0.42);
+
+  font-size: 10px;
+  font-weight: 600;
+}
+
+.useful-control-label {
+  margin-left: auto;
+
+  color: var(--civora-text-muted);
+
+  font-size: 11px;
+  font-weight: 500;
 }
 
 .divider {
   width: 100%;
   height: 1px;
-  background-color: rgba(255, 255, 255, 0.12);
+
+  background:
+    linear-gradient(
+      90deg,
+      rgba(20, 199, 206, 0.34) 0%,
+      rgba(255, 255, 255, 0.06) 45%,
+      rgba(255, 255, 255, 0.02) 100%
+    );
 }
 
 .useful-controls-button {
   position: absolute !important;
-  bottom: 25px;
-  right: 25px;
-  transition: 200ms !important;
-  border: none;
-  color: white;
-  width: 52px;
-  height: 52px;
+
+  right: 24px;
+  bottom: 24px;
+
+  width: 42px;
+  height: 42px;
+
   display: flex;
+
   justify-content: center;
   align-items: center;
-  fill: white;
-  border-radius: 5% !important;
-  background-color: $secondaryColor !important;
+
+  padding: 0;
+
+  color: var(--civora-text);
+
+  fill: var(--civora-text-muted);
+
+  background:
+    linear-gradient(
+      180deg,
+      rgba(18, 24, 30, 0.97) 0%,
+      rgba(12, 17, 22, 0.97) 100%
+    ) !important;
+
+  border:
+    1px solid var(--civora-border) !important;
+
+  border-radius:
+    50% !important;
+
+  box-shadow:
+    0 8px 20px rgba(0, 0, 0, 0.28);
+
+  transition:
+    background 140ms ease,
+    border-color 140ms ease,
+    fill 140ms ease,
+    transform 140ms ease !important;
+
   &:hover {
-    background-color: $secondaryColorDark !important;
-    cursor: pointer;
+    background:
+      rgba(20, 199, 206, 0.10) !important;
+
+    border-color:
+      var(--civora-accent-border) !important;
+
+    fill:
+      var(--civora-accent-bright);
+
+    transform:
+      translateY(-1px);
+
+    cursor:
+      pointer;
+  }
+
+  svg {
+    width: 18px;
+    height: 18px;
   }
 }
 
 .useful-controls-exit-button {
   position: absolute !important;
+
   right: 8px;
   top: 8px;
-  border-radius: 2.5% !important;
-  color: grey !important;
+
+  color:
+    var(--civora-text-muted) !important;
 }
 
 // Dialog is used fro useful controls window
@@ -271,14 +645,47 @@ body.inv-dragging {
 .inventory-grid-wrapper {
   display: flex;
   flex-direction: column;
-  gap: calc($gridGap * 2);
+
+  gap: 8px;
+
+  padding: 14px;
+
+  background:
+    linear-gradient(
+      180deg,
+      rgba(18, 24, 30, 0.97) 0%,
+      rgba(12, 17, 22, 0.97) 100%
+    );
+
+  border: 1px solid var(--civora-border);
+
+  border-radius: 12px;
+
+  box-shadow:
+    var(--civora-shadow-md),
+    inset 0 1px 0 rgba(255, 255, 255, 0.025);
 }
+
 .inventory-grid-header-wrapper {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  align-items: center;
+
+  padding: 0 2px;
+
   p {
-    font-size: 16px;
+    font-size: 14px;
+    font-weight: 600;
+
+    color: var(--civora-text);
+  }
+
+  p:last-child {
+    font-size: 12px;
+    font-weight: 500;
+
+    color: var(--civora-text-muted);
   }
 }
 
@@ -293,50 +700,110 @@ body.inv-dragging {
 
 // inventory slots
 .inventory-slot {
-  background-color: $secondaryColor;
+  position: relative;
+
+  background:
+    linear-gradient(
+      180deg,
+      rgba(17, 23, 29, 0.96) 0%,
+      rgba(12, 17, 22, 0.96) 100%
+    );
+
   background-repeat: no-repeat;
   background-position: center;
-  border-radius: 2.5%;
-  image-rendering: -webkit-optimize-contrast;
-  position: relative;
   background-size: 7vh;
-  color: $textColor;
-  border-color: rgba(0, 0, 0, 0.2);
-  border-style: inset;
-  border-width: 1px;
+
+  image-rendering: -webkit-optimize-contrast;
+
+  color: var(--civora-text);
+
+  border: 1px solid var(--civora-border-soft);
+
+  border-radius: 8px;
+
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.02);
+
+  transition:
+    border-color 140ms ease,
+    transform 140ms ease,
+    box-shadow 140ms ease;
+
+  &:hover {
+    border-color: var(--civora-accent-border);
+
+    box-shadow:
+      inset 3px 0 0 rgba(20, 199, 206, 0.72),
+      inset 0 1px 0 rgba(255, 255, 255, 0.025),
+      0 5px 14px rgba(0, 0, 0, 0.18);
+  }
 }
 
 .inventory-slot-label-box {
-  background-color: $mainColor;
-  color: $textColor;
+  background:
+    rgba(9, 14, 18, 0.92);
+
+  color:
+    var(--civora-text);
+
   text-align: center;
-  border-bottom-left-radius: 0.25vh;
-  border-bottom-right-radius: 0.25vh;
-  border-top-color: rgba(0, 0, 0, 0.2);
-  border-top-style: inset;
-  border-top-width: 1px;
+
+  border-top:
+    1px solid var(--civora-border-soft);
+
+  border-bottom-left-radius: 7px;
+  border-bottom-right-radius: 7px;
 }
 
 .inventory-slot-label-text {
-  text-transform: uppercase;
-  white-space: nowrap;
+  padding: 3px 4px;
+
   overflow: hidden;
+
+  color:
+    rgba(235, 239, 243, 0.88);
+
+  font-family:
+    $mainFont;
+
+  font-size: 10px;
+  font-weight: 600;
+
+  letter-spacing: 0.02em;
+
   text-overflow: ellipsis;
-  padding: 2px 3px;
-  font-weight: 400;
-  font-family: $mainFont;
-  font-size: 12px;
+  text-transform: uppercase;
+
+  white-space: nowrap;
 }
 
 .inventory-slot-number {
-  background-color: white;
-  color: black;
-  height: 12px;
-  border-top-left-radius: 0.25vh;
-  border-bottom-right-radius: 0.25vh;
-  padding: 3px;
-  font-size: 12px;
-  font-family: $mainFont;
+  min-width: 16px;
+  height: 16px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 0 3px;
+
+  background:
+    rgba(20, 199, 206, 0.14);
+
+  color:
+    var(--civora-accent-bright);
+
+  border:
+    1px solid rgba(20, 199, 206, 0.24);
+
+  border-top-left-radius: 7px;
+  border-bottom-right-radius: 7px;
+
+  font-family:
+    $mainFont;
+
+  font-size: 10px;
+  font-weight: 700;
 }
 
 .item-slot-wrapper {
@@ -363,54 +830,93 @@ body.inv-dragging {
 .item-slot-info-wrapper {
   display: flex;
   flex-direction: row;
+
   align-self: flex-end;
-  padding: 3px;
-  gap: 3px;
+
+  gap: 4px;
+
+  padding: 4px;
+
+  color:
+    rgba(220, 226, 232, 0.72);
+
   p {
-    font-size: 12px;
+    font-size: 10px;
+    font-weight: 500;
   }
 }
 
-.item-slot-currency-wrapper {
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-end;
-  align-items: center;
-  padding-right: 3px;
-  p {
-    font-size: 14px;
-    text-shadow: 0.1vh 0.1vh 0 rgba(0, 0, 0, 0.7);
-  }
-}
-
+.item-slot-currency-wrapper,
 .item-slot-price-wrapper {
   display: flex;
   flex-direction: row;
   justify-content: flex-end;
-  padding-right: 3px;
+  align-items: center;
+
+  gap: 4px;
+
+  padding-right: 4px;
+
   p {
-    font-size: 14px;
-    text-shadow: 0.1vh 0.1vh 0 rgba(0, 0, 0, 0.7);
+    margin: 0;
+
+    font-size: 12px;
+    font-weight: 700;
+
+    text-shadow: none;
   }
+}
+
+.item-slot-currency-wrapper {
+  color: var(--civora-text);
+}
+
+.item-slot-currency-image {
+  width: 18px;
+  height: 18px;
+
+  object-fit: contain;
+
+  flex-shrink: 0;
+
+  image-rendering: -webkit-optimize-contrast;
 }
 
 .tooltip-wrapper {
   pointer-events: none;
+
   display: flex;
-  background-color: $mainColor;
-  width: 200px;
-  padding: 8px;
   flex-direction: column;
-  min-width: 200px;
-  color: $textColor;
+
+  min-width: 220px;
+  width: 220px;
+
+  padding: 12px;
+
+  color: var(--civora-text);
+
+  background:
+    linear-gradient(
+      180deg,
+      rgba(18, 24, 30, 0.98) 0%,
+      rgba(12, 17, 22, 0.98) 100%
+    );
+
+  border: 1px solid var(--civora-border);
+
+  border-radius: 10px;
+
+  box-shadow:
+    0 14px 32px rgba(0, 0, 0, 0.34),
+    inset 0 1px 0 rgba(255, 255, 255, 0.025);
+
   font-family: $mainFont;
-  border-radius: 4px;
-  border-color: rgba(0, 0, 0, 0.2);
-  border-style: inset;
-  border-width: 1px;
+
   p {
     font-size: 12px;
-    font-weight: 400;
+    font-weight: 500;
+
+    color: var(--civora-text-muted);
   }
 }
 
@@ -419,9 +925,25 @@ body.inv-dragging {
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  p {
-    font-size: 15px;
-    font-weight: 400;
+
+  gap: 10px;
+
+  /* Item name */
+  > p:first-child {
+    color: var(--civora-text);
+
+    font-size: 14px;
+    font-weight: 700;
+  }
+
+  /* Metadata/type, but ONLY when there is actually a second <p> */
+  > p:not(:first-child) {
+    color: var(--civora-accent-bright);
+
+    font-size: 11px;
+    font-weight: 600;
+
+    text-transform: uppercase;
   }
 }
 
@@ -430,26 +952,65 @@ body.inv-dragging {
   flex-direction: row;
   align-items: center;
   justify-content: center;
+
+  gap: 4px;
+
+  color: var(--civora-accent-bright);
+
   svg {
-    padding-right: 3px;
+    width: 14px;
+    height: 14px;
+
+    padding: 0;
+
+    fill: currentColor;
   }
+
   p {
-    font-size: 14px;
+    color: inherit;
+
+    font-size: 11px;
+    font-weight: 600;
   }
 }
 
 .tooltip-ingredients {
-  padding-top: 5px;
+  display: flex;
+  flex-direction: column;
+
+  gap: 6px;
+
+  padding-top: 8px;
 }
 
 .tooltip-ingredient {
   display: flex;
   flex-direction: row;
   align-items: center;
+
+  gap: 8px;
+
+  padding: 5px 7px;
+
+  background: rgba(255, 255, 255, 0.025);
+
+  border: 1px solid var(--civora-border-soft);
+
+  border-radius: 7px;
+
   img {
     width: 28px;
     height: 28px;
-    padding-right: 5px;
+
+    padding: 0;
+
+    object-fit: contain;
+  }
+
+  p {
+    color: rgba(235, 239, 243, 0.82);
+
+    font-size: 11px;
   }
 }
 
@@ -457,74 +1018,144 @@ body.inv-dragging {
 .hotbar-container {
   display: flex;
   align-items: center;
-  gap: 2px;
   justify-content: center;
+
+  gap: 6px;
+
   width: 100%;
+
   position: absolute;
   bottom: 2vh;
+
+  pointer-events: none;
 }
 
 .hotbar-item-slot {
   @extend .inventory-slot;
+
   width: $gridSize;
   height: $gridSize;
+
+  border-color: var(--civora-border);
+
+  box-shadow:
+    0 8px 20px rgba(0, 0, 0, 0.28),
+    inset 0 1px 0 rgba(255, 255, 255, 0.025);
 }
 
 .hotbar-slot-header-wrapper {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+
+  padding: 0;
 }
 
 // item notifications
 
 .item-notification-container {
   display: flex;
-  overflow-x: scroll;
-  flex-wrap: nowrap;
-  gap: 2px;
+
   position: absolute;
-  bottom: 20vh;
+
+  bottom: 18vh;
   left: 50%;
-  width: 100%;
-  margin-left: calc(50% - calc($gridSize/2));
-  transform: translate(-50%);
+
+  transform: translateX(-50%);
+
+  width: auto;
+
+  gap: 8px;
+
+  overflow: visible;
+
+  flex-wrap: nowrap;
+
+  pointer-events: none;
 }
 
 .item-notification-action-box {
   width: 100%;
-  color: $textColor;
-  background-color: $secondaryColor;
-  text-transform: uppercase;
-  text-align: center;
-  border-top-left-radius: 0.25vh;
-  border-top-right-radius: 0.25vh;
+
+  box-sizing: border-box;
+
+  padding: 4px 6px;
+
+  color: var(--civora-accent-bright);
+
+  background: rgba(20, 199, 206, 0.10);
+
+  border-bottom: 1px solid rgba(20, 199, 206, 0.18);
+
+  border-top-left-radius: 7px;
+  border-top-right-radius: 7px;
+
   font-family: $mainFont;
+
+  text-align: center;
+
   p {
-    font-size: 11px;
-    padding: 2px;
-    font-weight: 600;
+    overflow: hidden;
+
+    font-size: 9px;
+    font-weight: 700;
+
+    letter-spacing: 0.03em;
+
+    text-overflow: ellipsis;
+    text-transform: uppercase;
+
+    white-space: nowrap;
   }
 }
 
 .item-notification-item-box {
   @extend .inventory-slot;
-  height: $gridSize;
+
   width: $gridSize;
+  height: $gridSize;
+
+  background-size: 5.8vh;
+
+  border-color: var(--civora-accent-border);
+
+  background-color: rgba(12, 17, 22, 0.98);
+
+  box-shadow:
+    0 12px 28px rgba(0, 0, 0, 0.34),
+    0 0 0 1px rgba(20, 199, 206, 0.04),
+    inset 0 1px 0 rgba(255, 255, 255, 0.025);
 }
 
 .durability-bar {
-  background: rgba(0, 0, 0, 0.5);
   height: 3px;
+
   overflow: hidden;
+
+  background:
+    rgba(255, 255, 255, 0.07);
+
+  > div {
+    border-radius: 999px;
+  }
 }
 
 .weight-bar {
-  background: rgba(0, 0, 0, 0.4);
-  border: 1px inset rgba(0, 0, 0, 0.1);
-  height: 0.8vh;
-  border-radius: 5%;
+  height: 5px;
+
   overflow: hidden;
+
+  background:
+    rgba(255, 255, 255, 0.07);
+
+  border:
+    1px solid rgba(255, 255, 255, 0.04);
+
+  border-radius: 999px;
+
+  > div {
+    border-radius: 999px;
+  }
 }
 
 .transition-fade-enter {
